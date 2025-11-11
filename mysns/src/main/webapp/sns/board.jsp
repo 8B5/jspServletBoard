@@ -100,7 +100,7 @@
                     </div>
                     <% if (keyword != null && !keyword.trim().isEmpty()) { %>
                     <div>
-                        <a onclick="location.href='/index.jsp?center=/sns/board.jsp'" class="btn btn-secondary">
+                        <a onclick="location.href='index.jsp?center=/sns/board.jsp'" class="btn btn-secondary">
                             <span class="btn-icon">&#x21BA;</span>
                             초기화
                         </a>
