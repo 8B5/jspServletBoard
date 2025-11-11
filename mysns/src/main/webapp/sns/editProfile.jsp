@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.myboard.dto.User" %>
+<%@ page import="com.myboard.common.PageURL" %>
 
 <%
     User loggedInUser = (User)session.getAttribute("loggedInUser");
-    if (loggedInUser == null) { response.sendRedirect("index.jsp?center=/sns/login.jsp"); return; }
+    if (loggedInUser == null) { response.sendRedirect(PageURL.LOGIN_PAGE); return; }
     
     String errorMessage = (String)request.getAttribute("errorMessage");
     String successMessage = (String)request.getAttribute("successMessage");

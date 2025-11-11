@@ -1,5 +1,6 @@
 package com.myboard.controller;
 
+import com.myboard.common.PageURL;
 import com.myboard.dao.CommentDAO;
 import com.myboard.dto.Comment;
 import com.myboard.dto.User;
@@ -20,7 +21,7 @@ public class CommentServlet extends HttpServlet {
         
         User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");
         if (loggedInUser == null) {
-            response.sendRedirect("index.jsp?center=/sns/login.jsp"); 
+            response.sendRedirect(PageURL.LOGIN_PAGE); 
             return;
         }
 
@@ -29,7 +30,7 @@ public class CommentServlet extends HttpServlet {
         } else if ("update".equals(action)) {
             handleUpdateComment(request, response, loggedInUser);
         } else {
-        	response.sendRedirect("index.jsp?center=/sns/board.jsp"); 
+         response.sendRedirect(PageURL.BOARD_PAGE); 
         }
     }
     
@@ -40,14 +41,14 @@ public class CommentServlet extends HttpServlet {
         User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");
         
         if (loggedInUser == null) {
-        	response.sendRedirect("index.jsp?center=/sns/login.jsp");
+         response.sendRedirect(PageURL.LOGIN_PAGE);
             return;
         }
         
         if ("delete".equals(action)) {
             handleDeleteComment(request, response, loggedInUser);
         } else {
-        	response.sendRedirect("index.jsp?center=/sns/board.jsp");
+         response.sendRedirect(PageURL.BOARD_PAGE);
         }
     }
     
@@ -59,7 +60,7 @@ public class CommentServlet extends HttpServlet {
             String content = request.getParameter("content");
             
             if (content == null || content.trim().isEmpty()) {
-            	response.sendRedirect("index.jsp?center=/sns/postDetail.jsp?id=" + postId + "&error=comment_empty");
+             response.sendRedirect(PageURL.getPostDetailPageWithCommentError(postId, "comment_empty"));
                 return;
             }
             
@@ -69,12 +70,12 @@ public class CommentServlet extends HttpServlet {
             comment.setContent(content.trim());
             
             if (commentDAO.writeComment(comment)) {
-            	response.sendRedirect("index.jsp?center=/sns/postDetail.jsp?id=" + postId);
+             response.sendRedirect(PageURL.getPostDetailPage(postId));
             } else {
-            	response.sendRedirect("index.jsp?center=/sns/postDetail.jsp?id=" + postId + "&error=comment_fail");
+             response.sendRedirect(PageURL.getPostDetailPageWithCommentError(postId, "comment_fail"));
             }
         } catch (NumberFormatException e) {
-        	response.sendRedirect("index.jsp?center=/sns/board.jsp");
+         response.sendRedirect(PageURL.BOARD_PAGE);
         }
     }
     
@@ -87,13 +88,13 @@ public class CommentServlet extends HttpServlet {
             String content = request.getParameter("content");
             
             if (content == null || content.trim().isEmpty()) {
-            	response.sendRedirect("index.jsp?center=/sns/postDetail.jsp?id=" + postId + "&error=comment_empty");
+             response.sendRedirect(PageURL.getPostDetailPageWithCommentError(postId, "comment_empty"));
                 return;
             }
             
             Comment comment = commentDAO.getCommentById(commentId);
             if (comment == null) {
-            	response.sendRedirect("index.jsp?center=/sns/postDetail.jsp?id=" + postId);
+             response.sendRedirect(PageURL.getPostDetailPage(postId));
                 return;
             }
             
@@ -101,17 +102,17 @@ public class CommentServlet extends HttpServlet {
             boolean canEdit = comment.getAuthorId().equals(loggedInUser.getUserId()) || loggedInUser.isAdmin();
             
             if (!canEdit) {
-            	response.sendRedirect("index.jsp?center=/sns/postDetail.jsp?id=" + postId + "&error=comment_permission");
+             response.sendRedirect(PageURL.getPostDetailPageWithCommentError(postId, "comment_permission"));
                 return;
             }
             
             if (commentDAO.updateComment(commentId, loggedInUser.getUserId(), content.trim())) {
-            	response.sendRedirect("index.jsp?center=/sns/postDetail.jsp?id=" + postId);
+             response.sendRedirect(PageURL.getPostDetailPage(postId));
             } else {
-            	response.sendRedirect("index.jsp?center=/sns/postDetail.jsp?id=" + postId + "&error=comment_update_fail");
+             response.sendRedirect(PageURL.getPostDetailPageWithCommentError(postId, "comment_update_fail"));
             }
         } catch (NumberFormatException e) {
-        	response.sendRedirect("index.jsp?center=/sns/board.jsp");
+         response.sendRedirect(PageURL.BOARD_PAGE);
         }
     }
     
@@ -123,7 +124,7 @@ public class CommentServlet extends HttpServlet {
             Comment comment = commentDAO.getCommentById(commentId);
             
             if (comment == null) {
-            	response.sendRedirect("index.jsp?center=/sns/board.jsp");
+             response.sendRedirect(PageURL.BOARD_PAGE);
                 return;
             }
             
@@ -138,13 +139,12 @@ public class CommentServlet extends HttpServlet {
             }
             
             if (deleted) {
-            	response.sendRedirect("index.jsp?center=/sns/postDetail.jsp?id=" + comment.getPostId());
+             response.sendRedirect(PageURL.getPostDetailPage(comment.getPostId()));
             } else {
-            	response.sendRedirect("index.jsp?center=/sns/postDetail.jsp?id=" + comment.getPostId() + "&error=comment_delete_fail");
+             response.sendRedirect(PageURL.getPostDetailPageWithCommentError(comment.getPostId(), "comment_delete_fail"));
             }
         } catch (NumberFormatException e) {
-        	response.sendRedirect("index.jsp?center=/sns/board.jsp");
+         response.sendRedirect(PageURL.BOARD_PAGE);
         }
     }
 }
-

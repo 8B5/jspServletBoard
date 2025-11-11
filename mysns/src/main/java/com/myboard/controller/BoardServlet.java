@@ -1,5 +1,6 @@
 package com.myboard.controller;
 
+import com.myboard.common.PageURL;
 import com.myboard.dao.PostDAO;
 import com.myboard.dto.Post;
 import com.myboard.dto.User;
@@ -20,7 +21,7 @@ public class BoardServlet extends HttpServlet {
         
         User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");
         if (loggedInUser == null) {
-            response.sendRedirect("index.jsp?center=/sns/login.jsp"); 
+            response.sendRedirect(PageURL.LOGIN_PAGE); 
             return;
         }
 
@@ -29,7 +30,7 @@ public class BoardServlet extends HttpServlet {
         } else if ("update".equals(action)) {
             handleUpdatePost(request, response, loggedInUser);
         } else {
-        	response.sendRedirect("index.jsp?center=/sns/board.jsp"); 
+        	response.sendRedirect(PageURL.BOARD_PAGE); 
         }
     }
 
@@ -42,9 +43,9 @@ public class BoardServlet extends HttpServlet {
         newPost.setAuthor(loggedInUser.getUserId());
 
         if (postDAO.writePost(newPost)) {
-        	response.sendRedirect("index.jsp?center=/sns/board.jsp"); 
+        	response.sendRedirect(PageURL.BOARD_PAGE); 
         } else {
-        	response.sendRedirect("index.jsp?center=/sns/writePost.jsp?error=fail"); 
+        	response.sendRedirect(PageURL.WRITE_POST_ERROR); 
         }
     }
     
@@ -56,7 +57,7 @@ public class BoardServlet extends HttpServlet {
             Post post = postDAO.getPostById(postId);
             
             if (post == null) {
-            	response.sendRedirect("index.jsp?center=/sns/board.jsp");
+            	response.sendRedirect(PageURL.BOARD_PAGE);
                 return;
             }
             
@@ -64,7 +65,7 @@ public class BoardServlet extends HttpServlet {
             boolean canEdit = post.getAuthor().equals(loggedInUser.getUserId()) || loggedInUser.isAdmin();
             
             if (!canEdit) {
-            	response.sendRedirect("index.jsp?center=/sns/postDetail.jsp?id=" + postId + "&error=permission");
+            	response.sendRedirect(PageURL.getPostDetailPageWithError(postId, "permission"));
                 return;
             }
             
@@ -73,12 +74,12 @@ public class BoardServlet extends HttpServlet {
             post.setContent(request.getParameter("content"));
             
             if (postDAO.updatePost(post)) {
-            	response.sendRedirect("index.jsp?center=/sns/postDetail.jsp?id=" + postId);
+            	response.sendRedirect(PageURL.getPostDetailPage(postId));
             } else {
-            	response.sendRedirect("index.jsp?center=/sns/postDetail.jsp?id=" + postId + "&error=update_fail");
+            	response.sendRedirect(PageURL.getPostDetailPageWithError(postId, "update_fail"));
             }
         } catch (NumberFormatException e) {
-        	response.sendRedirect("index.jsp?center=/sns/board.jsp");
+        	response.sendRedirect(PageURL.BOARD_PAGE);
         }
     }
     
@@ -89,14 +90,14 @@ public class BoardServlet extends HttpServlet {
         User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");
         
         if (loggedInUser == null) {
-        	response.sendRedirect("index.jsp?center=/sns/login.jsp");
+        	response.sendRedirect(PageURL.LOGIN_PAGE);
             return;
         }
         
         if ("delete".equals(action)) { 
             handleDeletePost(request, response, loggedInUser);
         } else {
-        	response.sendRedirect("index.jsp?center=/sns/board.jsp");
+        	response.sendRedirect(PageURL.BOARD_PAGE);
         }
     }
     
@@ -108,7 +109,7 @@ public class BoardServlet extends HttpServlet {
             Post post = postDAO.getPostById(postId);
             
             if (post == null) {
-            	response.sendRedirect("index.jsp?center=/sns/board.jsp");
+            	response.sendRedirect(PageURL.BOARD_PAGE);
                 return;
             }
             
@@ -123,12 +124,12 @@ public class BoardServlet extends HttpServlet {
             }
             
             if (deleted) {
-            	response.sendRedirect("index.jsp?center=/sns/board.jsp");
+            	response.sendRedirect(PageURL.BOARD_PAGE);
             } else {
-            	response.sendRedirect("index.jsp?center=/sns/postDetail.jsp?id=" + postId + "&error=delete_fail");
+            	response.sendRedirect(PageURL.getPostDetailPageWithError(postId, "delete_fail"));
             }
         } catch (NumberFormatException e) {
-        	response.sendRedirect("index.jsp?center=/sns/board.jsp");
+        	response.sendRedirect(PageURL.BOARD_PAGE);
         }
     }
 }

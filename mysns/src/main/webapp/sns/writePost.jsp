@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.myboard.common.PageURL" %>
 <%@ page import="com.myboard.dto.User" %>
 
 <% 
     User loggedInUser = (User)session.getAttribute("loggedInUser");
     
     if (loggedInUser == null) {
-    	response.sendRedirect("index.jsp?center=/sns/login.jsp");
+    	response.sendRedirect(PageURL.LOGIN_PAGE);
         return;
-    }
+    };
 %>
 <!DOCTYPE html>
 <html>

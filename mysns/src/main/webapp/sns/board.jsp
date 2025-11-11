@@ -4,10 +4,11 @@
 <%@ page import="com.myboard.dto.User" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="com.myboard.common.PageURL" %>
 <% 
     User loggedInUser = (User)session.getAttribute("loggedInUser");
     if (loggedInUser == null) {
-    	response.sendRedirect("index.jsp?center=/sns/login.jsp");
+    	response.sendRedirect(PageURL.LOGIN_PAGE);
         return;
     }
     

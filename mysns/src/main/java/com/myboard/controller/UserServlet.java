@@ -1,5 +1,6 @@
 package com.myboard.controller;
 
+import com.myboard.common.PageURL;
 import com.myboard.dao.UserDAO;
 import com.myboard.dto.User;
 import javax.servlet.*;
@@ -11,7 +12,7 @@ import java.util.List;
 @WebServlet("/user") 
 public class UserServlet extends HttpServlet {
     private UserDAO userDAO = new UserDAO();
-    String gotoRegisterUrl = "index.jsp?center=/sns/register.jsp";
+    String gotoRegisterUrl = PageURL.REGISTER_PAGE;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
@@ -27,7 +28,7 @@ public class UserServlet extends HttpServlet {
         } else if ("adminEdit".equals(action)) {
             handleAdminEditUser(request, response);
         } else {
-            response.sendRedirect("index.jsp"); 
+            response.sendRedirect(PageURL.INDEX_PAGE); 
         }
     }
 
@@ -38,15 +39,15 @@ public class UserServlet extends HttpServlet {
         User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");
         
         if (loggedInUser == null) {
-        	response.sendRedirect("index.jsp?center=/sns/login.jsp");
+        	response.sendRedirect(PageURL.LOGIN_PAGE);
             return;
         }
         
         if ("logout".equals(action)) {
             request.getSession().invalidate();
-            response.sendRedirect("index.jsp");
+            response.sendRedirect(PageURL.INDEX_PAGE);
         } else if ("profile".equals(action)) {
-            request.getRequestDispatcher("index.jsp?center=/sns/editProfile.jsp").forward(request, response);
+            request.getRequestDispatcher(PageURL.EDIT_PROFILE_PAGE).forward(request, response);
         } else if ("delete".equals(action)) {
             handleDeleteAccount(request, response, loggedInUser);
         } else if ("adminList".equals(action) && loggedInUser.isAdmin()) {
@@ -56,7 +57,7 @@ public class UserServlet extends HttpServlet {
         } else if ("adminDelete".equals(action) && loggedInUser.isAdmin()) {
             handleAdminDeleteUser(request, response);
         } else {
-            response.sendRedirect("index.jsp");
+            response.sendRedirect(PageURL.INDEX_PAGE);
         }
     }
 
@@ -111,7 +112,7 @@ public class UserServlet extends HttpServlet {
         try {
             if (userDAO.registerUser(newUser)) {
                 request.setAttribute("successMessage", "회원가입이 완료되었습니다. 로그인해 주세요.");
-                request.getRequestDispatcher("index.jsp?center=/sns/login.jsp").forward(request, response);
+                request.getRequestDispatcher(PageURL.LOGIN_PAGE).forward(request, response);
             } else {
                 // 중복 체크는 이미 위에서 했지만, 동시 가입 등의 경우를 대비해 재확인
                 if (userDAO.checkUserIdExists(userId.trim())) {
@@ -140,12 +141,12 @@ public class UserServlet extends HttpServlet {
         // 입력값 검증
         if (userId == null || userId.trim().isEmpty()) {
             request.setAttribute("errorMessage", "아이디를 입력해주세요.");
-            request.getRequestDispatcher("index.jsp?center=/sns/login.jsp").forward(request, response);
+            request.getRequestDispatcher(PageURL.LOGIN_PAGE).forward(request, response);
             return;
         }
         if (password == null || password.trim().isEmpty()) {
             request.setAttribute("errorMessage", "비밀번호를 입력해주세요.");
-            request.getRequestDispatcher("index.jsp?center=/sns/login.jsp").forward(request, response);
+            request.getRequestDispatcher(PageURL.LOGIN_PAGE).forward(request, response);
             return;
         }
         
@@ -154,10 +155,10 @@ public class UserServlet extends HttpServlet {
         if (user != null) {
             request.getSession().setAttribute("loggedInUser", user);
             System.out.println("세션에 사용자 저장: " + user.getUserId() + " (관리자: " + user.isAdmin() + ")");
-            response.sendRedirect("index.jsp?center=/sns/board.jsp");
+            response.sendRedirect(PageURL.BOARD_PAGE);
         } else {
             request.setAttribute("errorMessage", "아이디 또는 비밀번호가 일치하지 않습니다. 데이터베이스 연결을 확인해주세요.");
-            request.getRequestDispatcher("index.jsp?center=/sns/login.jsp").forward(request, response);
+            request.getRequestDispatcher(PageURL.LOGIN_PAGE).forward(request, response);
         }
     }
     
@@ -167,7 +168,7 @@ public class UserServlet extends HttpServlet {
         
         User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");
         if (loggedInUser == null) {
-        	response.sendRedirect("index.jsp?center=/sns/login.jsp");
+        	response.sendRedirect(PageURL.LOGIN_PAGE);
             return;
         }
 
@@ -181,10 +182,10 @@ public class UserServlet extends HttpServlet {
             // 수정 성공 시, 세션 정보 갱신 후 목록으로 이동
             request.getSession().setAttribute("loggedInUser", updatedUser);
             request.setAttribute("successMessage", "회원 정보 수정이 완료되었습니다.");
-            request.getRequestDispatcher("index.jsp?center=/sns/board.jsp").forward(request, response);
+            request.getRequestDispatcher(PageURL.BOARD_PAGE).forward(request, response);
         } else {
             request.setAttribute("errorMessage", "정보 수정에 실패했습니다. 다시 시도해 주세요.");
-            request.getRequestDispatcher("index.jsp?center=/sns/editProfile.jsp").forward(request, response);
+            request.getRequestDispatcher(PageURL.EDIT_PROFILE_PAGE).forward(request, response);
         }
     }
     
@@ -196,11 +197,11 @@ public class UserServlet extends HttpServlet {
             // 삭제 성공 시 세션을 무효화하고 메인 페이지로 이동
             request.getSession().invalidate();
             request.setAttribute("successMessage", "탈퇴가 완료되었습니다.");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher(PageURL.INDEX_PAGE).forward(request, response);
         } else {
             // 삭제 실패 시 프로필 페이지로 돌아가 에러 메시지 표시
             request.setAttribute("errorMessage", "계정 삭제에 실패했습니다. 다시 시도해 주세요.");
-            request.getRequestDispatcher("index.jsp?center=/sns/editProfile.jsp").forward(request, response);
+            request.getRequestDispatcher(PageURL.EDIT_PROFILE_PAGE).forward(request, response);
         }
     }
     
@@ -210,7 +211,7 @@ public class UserServlet extends HttpServlet {
         
         List<User> userList = userDAO.getAllUsers();
         request.setAttribute("userList", userList);
-        request.getRequestDispatcher("index.jsp?center=/sns/adminUserList.jsp").forward(request, response);
+        request.getRequestDispatcher(PageURL.ADMIN_USER_LIST_PAGE).forward(request, response);
     }
     
     // 관리자: 사용자 수정 페이지
@@ -239,7 +240,7 @@ public class UserServlet extends HttpServlet {
         
         User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");
         if (loggedInUser == null || !loggedInUser.isAdmin()) {
-            response.sendRedirect("index.jsp");
+            response.sendRedirect(PageURL.INDEX_PAGE);
             return;
         }
         
@@ -274,7 +275,7 @@ public class UserServlet extends HttpServlet {
         
         User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");
         if (loggedInUser == null || !loggedInUser.isAdmin()) {
-            response.sendRedirect("index.jsp");
+            response.sendRedirect(PageURL.INDEX_PAGE);
             return;
         }
         

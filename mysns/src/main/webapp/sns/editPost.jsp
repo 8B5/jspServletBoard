@@ -2,9 +2,10 @@
 <%@ page import="com.myboard.dao.PostDAO" %>
 <%@ page import="com.myboard.dto.Post" %>
 <%@ page import="com.myboard.dto.User" %>
+<%@ page import="com.myboard.common.PageURL" %>
 <%
     User loggedInUser = (User)session.getAttribute("loggedInUser");
-    if (loggedInUser == null) { response.sendRedirect("index.jsp?center=/sns/login.jsp"); return; }
+    if (loggedInUser == null) { response.sendRedirect(PageURL.LOGIN_PAGE); return; }
     
     int postId = 0;
     try { postId = Integer.parseInt(request.getParameter("id")); } catch(NumberFormatException e) { }
@@ -12,10 +13,10 @@
     PostDAO dao = new PostDAO();
     Post post = dao.getPostById(postId);
 
-    if (post == null) {response.sendRedirect("index.jsp?center=/sns/board.jsp"); return; }
+    if (post == null) {response.sendRedirect(PageURL.BOARD_PAGE); return; }
     
     boolean canEdit = post.getAuthor().equals(loggedInUser.getUserId()) || loggedInUser.isAdmin();
-    if (!canEdit) {response.sendRedirect("index.jsp?center=/sns/postDetail.jsp?id=" + postId + "&error=permission"); return; }
+    if (!canEdit) {response.sendRedirect(PageURL.getPostDetailPageWithError(postId, "permission")); return; }
 %>
 <!DOCTYPE html>
 <html>

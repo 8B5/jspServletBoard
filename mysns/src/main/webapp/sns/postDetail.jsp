@@ -7,9 +7,10 @@
 <%@ page import="com.myboard.dto.User" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.myboard.common.PageURL" %>
 <%
     User loggedInUser = (User)session.getAttribute("loggedInUser");
-    if (loggedInUser == null) { response.sendRedirect("index.jsp?center=/sns/login.jsp"); return; }
+    if (loggedInUser == null) { response.sendRedirect(PageURL.LOGIN_PAGE); return; }
     
     int postId = 0;
     try { postId = Integer.parseInt(request.getParameter("id")); } catch(NumberFormatException e) { }
@@ -17,7 +18,7 @@
     PostDAO postDAO = new PostDAO();
     Post post = postDAO.getPostById(postId);
 
-    if (post == null) {response.sendRedirect("index.jsp?center=/sns/board.jsp"); return; }
+    if (post == null) {response.sendRedirect(PageURL.BOARD_PAGE); return; }
     
     // 조회수 증가 (중복 방지를 위해 세션 체크는 간단하게 처리)
     postDAO.increaseViewCount(postId);
