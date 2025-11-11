@@ -16,7 +16,7 @@
     <!-- 네비게이션 바 -->
 	    <nav class="navbar">
 	        <div class="nav-container">
-	            <a href="index.jsp" class="nav-logo">3 Tier 통신 프로젝트 게시판</a>
+	            <a href="index.jsp" class="nav-logo">AWS 스터디 게시판</a>
 	            <ul class="nav-menu">
 	                <% if (loggedInUser == null) { %>
 	                    <li><a href="index.jsp?center=/sns/login.jsp" class="btn btn-primary btn-sm">로그인</a></li>
