@@ -36,7 +36,7 @@
                 <div class="hero-content">
                     <div style="width: 100%; text-align: center;">
                         <h1 class="hero-title-compact">AWS 스터디 게시판</h1>
-                        <p class="hero-subtitle-compact">커뮤니티와 함께하는 소통의 공간</p>
+                        <p class="hero-subtitle-compact">AWS 스터디 내용을 공유하는 소통의 공간</p>
                     </div>
                     <div class="hero-actions-compact">
                         <% if (loggedInUser == null) { %>
