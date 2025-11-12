@@ -214,7 +214,7 @@
                                 </div>
                                 <% } %>
                             </div>
-                            <div id="comment-content-<%= comment.getCommentId() %>" style="color: var(--text-primary); line-height: 1.7; white-space: pre-wrap; font-size: 14px; font-weight: 400;">
+                            <div id="comment-content-<%= comment.getCommentId() %>" style="color: var(--text-primary); line-height: 1.7; white-space: normal; font-size: 14px; font-weight: 400;">
                                 <%= comment.getContent() != null ? comment.getContent().replace("\n", "<br>") : "" %>
                             </div>
                             <!-- 댓글 수정 폼 (숨김) -->

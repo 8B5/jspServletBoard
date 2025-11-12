@@ -32,7 +32,7 @@
             
             <% if (successMessage != null) { %>
                 <div class="success-message message">
-                    <span>✓</span>
+                    <span>&#x2713;</span>
                     <%= successMessage %>
                 </div>
             <% } %>
