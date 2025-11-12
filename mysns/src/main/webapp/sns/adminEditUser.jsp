@@ -31,7 +31,7 @@
             
             <% if (errorMessage != null) { %>
                 <div class="error-message message">
-                    <span>⚠️</span>
+                    <span>&#x26A0;&#xFE0F;</span>
                     <%= errorMessage %>
                 </div>
             <% } %>

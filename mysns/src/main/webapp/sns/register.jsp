@@ -24,7 +24,7 @@
             
             <% if (request.getAttribute("errorMessage") != null) { %>
                 <div class="error-message message">
-                    <span>⚠️</span>
+                    <span>&#x26A0;&#xFE0F;</span>
                     <%= request.getAttribute("errorMessage") %>
                 </div>
             <% } %>
@@ -54,7 +54,7 @@
                 
                 <div class="form-group">
                     <button type="submit" class="btn btn-success" style="width: 100%;">
-                        <span class="btn-icon">✏️</span>
+                        <span class="btn-icon">&#x270F;&#xFE0F;</span>
                         가입하기
                     </button>
                 </div>
