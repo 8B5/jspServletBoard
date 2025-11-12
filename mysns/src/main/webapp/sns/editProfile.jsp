@@ -25,14 +25,14 @@
             
             <% if (errorMessage != null) { %>
                 <div class="error-message message">
-                    <span>⚠️</span>
+                    <span>&#x26A0;&#xFE0F;</span>
                     <%= errorMessage %>
                 </div>
             <% } %>
             
             <% if (successMessage != null) { %>
                 <div class="success-message message">
-                    <span>✓</span>
+                    <span>&#x2713;</span>
                     <%= successMessage %>
                 </div>
             <% } %>
@@ -89,12 +89,12 @@
                 <h3 style="color: var(--text-secondary); font-size: 16px; margin-bottom: 12px;">계정 관리</h3>
                 <p style="color: var(--text-light); font-size: 14px; margin-bottom: 20px;">
                     더 이상 서비스를 이용하지 않으시려면 계정을 삭제할 수 있습니다.
-                    <br><span style="color: var(--accent-color); font-size: 12px;">⚠️ 이 작업은 되돌릴 수 없습니다.</span>
+                    <br><span style="color: var(--accent-color); font-size: 12px;">&#x26A0;&#xFE0F; 이 작업은 되돌릴 수 없습니다.</span>
                 </p>
                 <a href="user?action=delete" 
                    onclick="return confirm('정말로 계정을 삭제하시겠습니까?\n\n이 작업은 되돌릴 수 없으며, 모든 게시글과 정보가 영구적으로 삭제됩니다.');"
                    class="btn btn-danger" style="width: 100%;">
-                    <span class="btn-icon">🗑️</span>
+                    <span class="btn-icon">&#x1F5D1;&#xFE0F;</span>
                     계정 삭제 (탈퇴)
                 </a>
             </div>
