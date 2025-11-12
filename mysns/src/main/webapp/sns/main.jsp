@@ -11,7 +11,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>3 Tier 통신 프로젝트 게시판</title>
+    <title>AWS 스터디 게시판</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -35,7 +35,7 @@
             <div class="hero-section-compact">
                 <div class="hero-content">
                     <div style="width: 100%; text-align: center;">
-                        <h1 class="hero-title-compact">3 Tier 통신 프로젝트 게시판</h1>
+                        <h1 class="hero-title-compact">AWS 스터디 게시판</h1>
                         <p class="hero-subtitle-compact">커뮤니티와 함께하는 소통의 공간</p>
                     </div>
                     <div class="hero-actions-compact">

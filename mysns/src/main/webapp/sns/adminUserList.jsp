@@ -26,7 +26,7 @@
         <div class="container">
             <div class="flex-between mb-3">
                 <h1 style="margin: 0;">사용자 관리</h1>
-                <a href="index.jsp?center=board.jsp" class="btn btn-secondary">
+                <a href="index.jsp?center=/sns/board.jsp" class="btn btn-secondary">
                     <span class="btn-icon">←</span>
                     게시판으로
                 </a>
