@@ -162,7 +162,7 @@ public class UserServlet extends HttpServlet {
         }
     }
     
-    // 회원 정보 수정 처리 (DAO 호출) 🚨 신규 메서드
+    // 회원 정보 수정 처리 (DAO 호출)  신규 메서드
     private void handleEditProfile(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
@@ -225,13 +225,16 @@ public class UserServlet extends HttpServlet {
         }
         
         User targetUser = userDAO.getUserById(userId);
+
         if (targetUser == null) {
             response.sendRedirect("user?action=adminList");
             return;
         }
         
         request.setAttribute("targetUser", targetUser);
-        request.getRequestDispatcher("adminEditUser.jsp").forward(request, response);
+        
+
+        request.getRequestDispatcher(PageURL.ADMIN_USER_EDIT_PAGE).forward(request, response);
     }
     
     // 관리자: 사용자 정보 수정 처리

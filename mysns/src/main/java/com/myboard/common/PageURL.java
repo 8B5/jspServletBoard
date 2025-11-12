@@ -21,6 +21,7 @@ public class PageURL {
 	 public static final String REGISTER_PAGE = INDEX_BASE + "/sns/register.jsp";
 	 public static final String EDIT_PROFILE_PAGE = INDEX_BASE + "/sns/editProfile.jsp";
 	 public static final String ADMIN_USER_LIST_PAGE = INDEX_BASE + "/sns/adminUserList.jsp";
+	 public static final String ADMIN_USER_EDIT_PAGE = INDEX_BASE + "/sns/adminEditUser.jsp";
     
     // 에러 파라미터가 포함된 페이지
     public static final String WRITE_POST_ERROR = WRITE_POST_PAGE + "?error=fail";
