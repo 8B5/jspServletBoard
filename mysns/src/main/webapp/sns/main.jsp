@@ -12,13 +12,13 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>AWS 스터디 게시판</title>
-    <link rel="stylesheet" href="css/style.css">
+ 
 </head>
 <body>
 
     <!-- 메인 콘텐츠 -->
     <div class="main-content">
-        <div class="container">
+        <div class="container neo-stack">
             <% if (request.getAttribute("successMessage") != null) { %>
                 <div class="success-message message mb-2">
                     <span>&#x2705;</span> 
@@ -32,7 +32,7 @@
                 </div>
             <% } %>
             <!-- 컴팩트한 Hero 섹션 -->
-            <div class="hero-section-compact">
+            <div class="hero-section-compact neo-glow">
                 <div class="hero-content">
                     <div style="width: 100%; text-align: center;">
                         <h1 class="hero-title-compact">AWS 스터디 게시판</h1>
@@ -40,24 +40,49 @@
                     </div>
                     <div class="hero-actions-compact">
                         <% if (loggedInUser == null) { %>
-                            <a href="index.jsp?center=/sns/login.jsp" class="btn btn-primary btn-sm">
+                            <a href="<%= request.getContextPath() %>/index.jsp?center=/sns/login.jsp" class="btn btn-primary btn-sm">
                                 <span class="btn-icon">&#x1F510;</span>
                                 로그인
                             </a>
-                            <a href="index.jsp?center=/sns/register.jsp" class="btn btn-secondary btn-sm">
+                            <a href="<%= request.getContextPath() %>/index.jsp?center=/sns/register.jsp" class="btn btn-secondary btn-sm">
                                 <span class="btn-icon">&#x270F;&#xFE0F;</span>
                                 회원가입
                             </a>
                         <% } else { %>
-                            <a href="index.jsp?center=/sns/board.jsp" class="btn btn-success btn-sm">
+                            <a href="<%= request.getContextPath() %>/index.jsp?center=/sns/board.jsp" class="btn btn-success btn-sm">
                                 <span class="btn-icon">&#x1F4CB;</span>
                                 게시판
                             </a>
-                            <a href="index.jsp?center=/sns/writePost.jsp" class="btn btn-primary btn-sm">
+                            <a href="<%= request.getContextPath() %>/index.jsp?center=/sns/writePost.jsp" class="btn btn-primary btn-sm">
                                 <span class="btn-icon">&#x270D;&#xFE0F;</span>
                                 글 작성
                             </a>
                         <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="neo-panel neo-stack neo-glow">
+                <div class="flex-between">
+                    <h2 style="margin:0;">System Pulse</h2>
+                    <span class="neo-subtitle" style="font-size:11px; letter-spacing:0.3em; color:var(--text-secondary);">REALTIME SIGNAL</span>
+                </div>
+                <hr class="neo-divider" />
+                <div class="card-list">
+                    <div class="post-card">
+                        <p class="neo-subtitle" style="color:var(--text-secondary); font-size:11px;">실시간 참여</p>
+                        <h3 style="margin:0; font-size:26px; color:var(--accent-cyan);">라이브 모드</h3>
+                        <p class="post-excerpt">실시간 스터디 기록을 함께 확인하고 빠르게 의견을 나눠보세요.</p>
+                    </div>
+                    <div class="post-card">
+                        <p class="neo-subtitle" style="color:var(--text-secondary); font-size:11px;">정보 흐름</p>
+                        <h3 style="margin:0; font-size:26px; color:var(--accent-violet);">데이터 싱크</h3>
+                        <p class="post-excerpt">모든 게시글과 알림이 즉시 동기화되어 최신 정보를 놓치지 않습니다.</p>
+                    </div>
+                    <div class="post-card">
+                        <p class="neo-subtitle" style="color:var(--text-secondary); font-size:11px;">관리 포털</p>
+                        <h3 style="margin:0; font-size:26px; color:var(--accent-magenta);">보안 제어</h3>
+                        <p class="post-excerpt">관리자는 전용 콘솔에서 계정과 게시물을 안전하게 관리할 수 있습니다.</p>
                     </div>
                 </div>
             </div>

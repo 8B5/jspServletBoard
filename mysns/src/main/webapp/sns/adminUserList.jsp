@@ -18,17 +18,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>사용자 관리 - 게시판 플랫폼</title>
-    <link rel="stylesheet" href="css/style.css">
+ 
 </head>
 <body>
     <!-- 메인 콘텐츠 -->
     <div class="main-content">
-        <div class="container">
+        <div class="container neo-stack">
             <div class="flex-between mb-3">
-                <h1 style="margin: 0;">사용자 관리</h1>
-                <a href="index.jsp?center=/sns/board.jsp" class="btn btn-secondary">
+                <div>
+                    <h1 style="margin: 0;">사용자 제어 데크</h1>
+                    <p class="neo-subtitle" style="margin-top:6px;">관리 채널</p>
+                </div>
+                <a href="<%= request.getContextPath() %>/index.jsp?center=/sns/board.jsp" class="btn btn-secondary">
                     <span class="btn-icon">←</span>
-                    게시판으로
+                    게시판으로 돌아가기
                 </a>
             </div>
             
@@ -47,12 +50,12 @@
             <% } %>
             
             <% if (userList == null || userList.isEmpty()) { %>
-                <div class="text-center" style="padding: 60px 20px;">
+                <div class="neo-panel neo-glow text-center" style="padding: 60px 20px;">
                     <div style="font-size: 48px; margin-bottom: 16px;">&#x1F465;</div>
-                    <h3 style="color: var(--text-secondary); margin-bottom: 8px;">사용자가 없습니다</h3>
+                    <h3 style="color: var(--text-secondary); margin-bottom: 8px;">등록된 사용자가 없습니다</h3>
                 </div>
             <% } else { %>
-                <div class="table-container">
+                <div class="table-container neo-glow">
                     <table>
                         <thead>
                             <tr>
@@ -71,18 +74,18 @@
                                     <td><%= user.getEmail() != null ? user.getEmail() : "-" %></td>
                                     <td>
                                         <% if (user.isAdmin()) { %>
-                                            <span style="color: var(--accent-color); font-weight: 500;">&#x1F451; 관리자</span>
+                                            <span style="color: var(--accent-magenta); font-weight: 500;">&#x1F451; 관리자</span>
                                         <% } else { %>
-                                            <span style="color: var(--text-light);">일반</span>
+                                            <span style="color: var(--text-muted);">일반</span>
                                         <% } %>
                                     </td>
                                     <td>
-                                        <a href="user?action=adminEdit&userId=<%= user.getUserId() %>" class="btn btn-primary btn-sm">
+                                        <a href="<%= request.getContextPath() %>/user?action=adminEdit&userId=<%= user.getUserId() %>" class="btn btn-primary btn-sm">
                                             <span class="btn-icon">&#x270F;&#xFE0F;</span>
                                             수정
                                         </a>
                                         <% if (!user.getUserId().equals(loggedInUser.getUserId())) { %>
-                                        <a href="user?action=adminDelete&userId=<%= user.getUserId() %>" 
+                                        <a href="<%= request.getContextPath() %>/user?action=adminDelete&userId=<%= user.getUserId() %>" 
                                            class="btn btn-danger btn-sm"
                                            onclick="return confirm('정말로 이 사용자 계정을 삭제하시겠습니까?\n\n이 작업은 되돌릴 수 없으며, 사용자의 모든 게시글과 댓글이 영구적으로 삭제됩니다.');">
                                             <span class="btn-icon">&#x1F5D1;&#xFE0F;</span>

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.myboard.dto.User" %>
 
- <link rel="stylesheet" href="sns/css/style.css">
+ <link rel="stylesheet" href="static/css/style.css">
+ <script src="static/js/ui-effects.js" defer></script>
 
 
 <%

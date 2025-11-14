@@ -62,12 +62,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= post.getTitle() %> - 게시판 플랫폼</title>
-    <link rel="stylesheet" href="css/style.css">
+ 
 </head>
 <body>
     <!-- 메인 콘텐츠 -->
     <div class="main-content">
-        <div class="container post-detail">
+        <div class="container post-detail neo-stack">
             <div class="post-detail-header">
                 <h1 class="post-detail-title"><%= post.getTitle() %></h1>
                 <div class="post-detail-meta">
@@ -102,36 +102,36 @@
             </div>
             
             <div class="post-detail-actions">
-                <a href="index.jsp?center=/sns/board.jsp" class="btn btn-secondary">
+                <a href="<%= request.getContextPath() %>/index.jsp?center=/sns/board.jsp" class="btn btn-secondary">
                     <span class="btn-icon">&#x2190;</span>
-                    목록으로 돌아가기
+                    목록으로
                 </a>
                 
                 <% if (canEdit) { %>
-                    <a href="index.jsp?center=/sns/editPost.jsp?id=<%= post.getPostId() %>" class="btn btn-primary">
+                    <a href="<%= request.getContextPath() %>/index.jsp?center=/sns/editPost.jsp?id=<%= post.getPostId() %>" class="btn btn-primary">
                         <span class="btn-icon">&#x270F;&#xFE0F;</span>
-                        글 수정
+                        수정
                     </a>
                 <% } %>
                 
                 <% if (canEdit) { %> 
-                    <a href="/board?action=delete&id=<%= post.getPostId() %>" class="btn btn-danger"
+                    <a href="<%= request.getContextPath() %>/board?action=delete&id=<%= post.getPostId() %>" class="btn btn-danger"
                        onclick="return confirm('정말로 이 글을 삭제하시겠습니까?');">
                         <span class="btn-icon">&#x1F5D1;&#xFE0F;</span>
-                        글 삭제
+                        삭제
                     </a>
                 <% } %>
             </div>
             
-            <!-- 댓글 섹션 (구글 스타일) -->
-            <div style="margin-top: 48px; padding-top: 40px; border-top: 1px solid var(--border-color);">
+            <!-- 댓글 섹션 -->
+            <div class="neo-panel neo-glow" style="margin-top: 12px;">
                 <h2 style="margin-bottom: 24px; font-size: 24px; font-weight: 400; color: var(--text-primary); letter-spacing: -0.3px;">
                     댓글 (<%= commentList.size() %>)
                 </h2>
                 
                 <!-- 댓글 작성 폼 -->
-                <div style="background: var(--bg-primary); border: 1px solid var(--border-color); padding: 24px; border-radius: var(--radius-md); margin-bottom: 32px; box-shadow: var(--shadow-sm);">
-                    <form action="comment" method="post">
+                <div class="neo-panel" style="padding:28px 24px; background:rgba(7,13,30,0.72); border-color:rgba(0,245,255,0.12); margin-bottom:32px;">
+                    <form action="<%= request.getContextPath() %>/comment" method="post">
                         <input type="hidden" name="action" value="write">
                         <input type="hidden" name="postId" value="<%= post.getPostId() %>">
                         <div class="form-group">
@@ -139,24 +139,24 @@
                                 댓글 작성
                             </label>
                             <textarea id="commentContent" name="content" 
-                                      placeholder="댓글을 입력하세요..." 
+                                      placeholder="댓글을 입력하면 게시글에 등록됩니다." 
                                       required 
                                       style="min-height: 100px;"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">
                             <span class="btn-icon">&#x1F4AC;</span>
-                            댓글 작성
+                            등록
                         </button>
                     </form>
                 </div>
                 
                 <!-- 댓글 목록 -->
                 <% if (commentList.isEmpty()) { %>
-                    <div class="text-center" style="padding: 40px 20px; color: var(--text-light);">
-                        <p>아직 댓글이 없습니다. 첫 번째 댓글을 작성해보세요!</p>
+                    <div class="text-center" style="padding: 40px 20px; color: var(--text-secondary); letter-spacing:0.18em; text-transform:uppercase;">
+                        <p>아직 댓글이 없습니다. 첫 댓글을 남겨보세요.</p>
                     </div>
                 <% } else { %>
-                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <div class="neo-stack">
                         <% for (Comment comment : commentList) {
                             boolean isCommentAuthor = comment.getAuthorId().equals(loggedInUser.getUserId());
                             boolean canEditComment = isCommentAuthor || loggedInUser.isAdmin();
@@ -174,17 +174,17 @@
                                 }
                             }
                         %>
-                        <div style="background: var(--bg-primary); border: 1px solid var(--border-color); padding: 20px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
-                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                        <div class="post-card">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px;">
                                 <div>
-                                    <strong style="color: var(--text-primary); font-weight: 500; font-size: 15px;"><%= comment.getAuthorId() %></strong>
+                                    <strong style="color: var(--accent-cyan); font-weight: 600; font-size: 14px; letter-spacing:0.12em;"><%= comment.getAuthorId() %></strong>
                                     <% 
                                     // 댓글 작성자가 실제로 관리자인 경우에만 관리자 마크 표시
                                     if (isCommentAuthorAdmin) { 
                                     %>
-                                        <span style="color: var(--accent-color); font-size: 11px; margin-left: 6px; font-weight: 500;">관리자</span>
+                                        <span style="color: var(--accent-magenta); font-size: 11px; margin-left: 6px; font-weight: 500;">관리자</span>
                                     <% } %>
-                                    <span style="color: var(--text-secondary); font-size: 12px; margin-left: 12px; font-weight: 400;"><%= commentDate %></span>
+                                    <span style="color: var(--text-secondary); font-size: 11px; margin-left: 12px; letter-spacing:0.12em;"><%= commentDate %></span>
                                 </div>
                                 <% if (canEditComment) { 
                                     String commentContentForJs = "";
@@ -201,25 +201,23 @@
                                     <button data-comment-id="<%= comment.getCommentId() %>" 
                                             data-comment-content="<%= commentContentForJs %>"
                                             onclick="editCommentFromButton(this)" 
-                                            class="btn btn-secondary btn-sm" 
-                                            style="padding: 6px 16px; font-size: 13px;">
+                                            class="btn btn-secondary btn-sm">
                                         수정
                                     </button>
-                                    <a href="comment?action=delete&commentId=<%= comment.getCommentId() %>" 
+                                    <a href="<%= request.getContextPath() %>/comment?action=delete&commentId=<%= comment.getCommentId() %>" 
                                        class="btn btn-danger btn-sm" 
-                                       style="padding: 6px 16px; font-size: 13px;"
                                        onclick="return confirm('정말로 이 댓글을 삭제하시겠습니까?');">
                                         삭제
                                     </a>
                                 </div>
                                 <% } %>
                             </div>
-                            <div id="comment-content-<%= comment.getCommentId() %>" style="color: var(--text-primary); line-height: 1.7; white-space: normal; font-size: 14px; font-weight: 400;">
+                            <div id="comment-content-<%= comment.getCommentId() %>" style="color: var(--text-primary); line-height: 1.7; white-space: normal; font-size: 14px;">
                                 <%= comment.getContent() != null ? comment.getContent().replace("\n", "<br>") : "" %>
                             </div>
                             <!-- 댓글 수정 폼 (숨김) -->
-                            <div id="comment-edit-<%= comment.getCommentId() %>" style="display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-color);">
-                                <form action="comment" method="post">
+                            <div id="comment-edit-<%= comment.getCommentId() %>" style="display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.08);">
+                                <form action="<%= request.getContextPath() %>/comment" method="post">
                                     <input type="hidden" name="action" value="update">
                                     <input type="hidden" name="commentId" value="<%= comment.getCommentId() %>">
                                     <input type="hidden" name="postId" value="<%= post.getPostId() %>">

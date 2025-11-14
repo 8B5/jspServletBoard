@@ -60,85 +60,88 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>게시판 - 게시판 플랫폼</title>
-    <link rel="stylesheet" href="css/style.css">
+ 
 </head>
 <body>
     <!-- 메인 콘텐츠 -->
     <div class="main-content">
-        <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.5px;">게시판</h1>
-                <a href="index.jsp?center=/sns/writePost.jsp" class="btn btn-success">
+        <div class="container neo-stack">
+            <div class="flex-between">
+                <div>
+                    <h1 style="margin:0;">게시판</h1>
+                    <p class="neo-subtitle" style="margin-top:6px;">협업 지능 피드</p>
+                </div>
+                <a href="<%= request.getContextPath() %>/index.jsp?center=/sns/writePost.jsp" class="btn btn-primary">
                     <span class="btn-icon">&#x270D;&#xFE0F;</span>
                     새 글 작성
                 </a>
             </div>
             
-            <!-- 검색 기능 (네이버 스타일) -->
-            <div style="background: var(--bg-primary); border: 1px solid var(--border-color); padding: 20px; border-radius: var(--radius-md); margin-bottom: 24px;">
-				<form action="index.jsp" method="get" style="display: flex; gap: 12px; align-items: flex-end;">
-				    <input type="hidden" name="center" value="/sns/board.jsp">                    <input type="hidden" name="page" value="1">
-                    <div style="flex: 1;">
-                        <label for="searchType" style="display: block; margin-bottom: 8px; color: var(--text-primary); font-size: 14px; font-weight: 400;">검색 필터</label>
-                        <select id="searchType" name="searchType" class="form-select">
-                            <option value="all" <%= "all".equals(searchType) ? "selected" : "" %>>전체</option>
-                            <option value="title" <%= "title".equals(searchType) ? "selected" : "" %>>제목</option>
-                            <option value="content" <%= "content".equals(searchType) ? "selected" : "" %>>내용</option>
-                            <option value="author" <%= "author".equals(searchType) ? "selected" : "" %>>작성자</option>
-                        </select>
+            <!-- 검색 패널 -->
+            <div class="neo-panel neo-glow">
+                <form action="<%= request.getContextPath() %>/index.jsp" method="get" class="neo-stack">
+                    <input type="hidden" name="center" value="/sns/board.jsp">
+                    <input type="hidden" name="page" value="1">
+                    <div class="flex-between" style="flex-wrap:wrap; gap:16px;">
+                        <div style="flex:1 1 160px;">
+                            <label for="searchType">검색 필터</label>
+                            <select id="searchType" name="searchType">
+                                <option value="all" <%= "all".equals(searchType) ? "selected" : "" %>>전체</option>
+                                <option value="title" <%= "title".equals(searchType) ? "selected" : "" %>>제목</option>
+                                <option value="content" <%= "content".equals(searchType) ? "selected" : "" %>>내용</option>
+                                <option value="author" <%= "author".equals(searchType) ? "selected" : "" %>>작성자</option>
+                            </select>
+                        </div>
+                        <div style="flex:3 1 260px;">
+                            <label for="keyword">검색어</label>
+                            <input type="text" id="keyword" name="keyword" value="<%= keyword != null ? keyword : "" %>" placeholder="검색어를 입력하여 피드를 스캔하세요">
+                        </div>
+                        <div style="display:flex; gap:12px; align-items:flex-end;">
+                            <button type="submit" class="btn btn-info btn-sm">
+                                <span class="btn-icon">&#x1F50D;</span>
+                                검색
+                            </button>
+                            <% if (keyword != null && !keyword.trim().isEmpty()) { %>
+                            <a onclick="location.href='<%= request.getContextPath() %>/index.jsp?center=/sns/board.jsp'" class="btn btn-secondary btn-sm">
+                                <span class="btn-icon">&#x21BA;</span>
+                                초기화
+                            </a>
+                            <% } %>
+                        </div>
                     </div>
-                    <div style="flex: 3;">
-                        <label for="keyword" style="display: block; margin-bottom: 8px; color: var(--text-primary); font-size: 14px; font-weight: 400;">검색어</label>
-                        <input type="text" id="keyword" name="keyword" value="<%= keyword != null ? keyword : "" %>" 
-                               placeholder="검색어를 입력하세요" style="width: 100%;">
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-primary">
-                            <span class="btn-icon">&#x1F50D;</span>
-                            검색
-                        </button>
-                    </div>
-                    <% if (keyword != null && !keyword.trim().isEmpty()) { %>
-                    <div>
-                        <a onclick="location.href='index.jsp?center=/sns/board.jsp'" class="btn btn-secondary">
-                            <span class="btn-icon">&#x21BA;</span>
-                            초기화
-                        </a>
-                    </div>
-                    <% } %>
                 </form>
                 <% if (keyword != null && !keyword.trim().isEmpty()) { %>
-                    <div style="margin-top: 16px; color: var(--text-secondary); font-size: 14px; font-weight: 400;">
-                        검색 결과: <strong style="color: var(--primary-color); font-weight: 500;"><%= postList.size() %></strong>개
-                    </div>
+                    <p class="neo-subtitle" style="margin-top:14px; color:var(--accent-cyan);">
+                        결과 :: <%= postList.size() %> 건
+                    </p>
                 <% } %>
             </div>
             
             <% if (postList.isEmpty()) { %>
-                <div class="text-center" style="padding: 60px 20px;">
-                    <div style="font-size: 48px; margin-bottom: 16px;">
+                <div class="neo-panel neo-glow text-center" style="padding:60px 24px;">
+                    <div style="font-size:48px; margin-bottom:18px;">
                         <% if (keyword != null && !keyword.trim().isEmpty()) { %>
                             &#x1F50D;
                         <% } else { %>
                             &#x1F4DD;
                         <% } %>
                     </div>
-                    <h3 style="color: var(--text-secondary); margin-bottom: 8px;">
+                    <h3 style="margin-bottom:12px; letter-spacing:0.16em;">
                         <% if (keyword != null && !keyword.trim().isEmpty()) { %>
-                            검색 결과가 없습니다
+                            데이터 스트림을 찾을 수 없습니다
                         <% } else { %>
-                            게시글이 없습니다
+                            첫 번째 전송을 시작하세요
                         <% } %>
                     </h3>
-                    <p style="color: var(--text-light); margin-bottom: 24px;">
+                    <p style="color: var(--text-secondary); margin-bottom:28px;">
                         <% if (keyword != null && !keyword.trim().isEmpty()) { %>
-                            다른 검색어로 시도해보세요.
+                            다른 검색어를 시도하거나 필터를 확장하세요.
                         <% } else { %>
-                            첫 번째 게시글을 작성해보세요!
+                            첫 게시글을 작성하고 게시판을 밝혀주세요.
                         <% } %>
                     </p>
                     <% if (keyword == null || keyword.trim().isEmpty()) { %>
-                        <a href="index.jsp?center=/sns/writePost.jsp" class="btn btn-primary">글 작성하기</a>
+                        <a href="<%= request.getContextPath() %>/index.jsp?center=/sns/writePost.jsp" class="btn btn-primary">글 작성하기</a>
                     <% } %>
                 </div>
             <% } else { %>
@@ -149,7 +152,7 @@
                             ? post.getContent().substring(0, 100) + "..." 
                             : (post.getContent() != null ? post.getContent() : "");
                     %>
-                    <a href="index.jsp?center=/sns/postDetail.jsp?id=<%= post.getPostId() %>" class="post-card">
+                    <a href="<%= request.getContextPath() %>/index.jsp?center=/sns/postDetail.jsp?id=<%= post.getPostId() %>" class="post-card">
                         <div style="display: flex; align-items: flex-start; gap: 16px;">
                             <div style="flex: 1; min-width: 0;">
                                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
@@ -180,9 +183,9 @@
                 
                 <!-- 페이징 UI (구글 스타일) -->
                 <% if (totalPages > 1) { %>
-                <div style="margin-top: 48px; display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <div style="margin-top: 48px; display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap;">
                     <% if (currentPage > 1) { %>
-                        <a href="index.jsp?center=/sns/board.jsp?page=<%= currentPage - 1 %><% if (keyword != null && !keyword.trim().isEmpty()) { %>&keyword=<%= java.net.URLEncoder.encode(keyword, "UTF-8") %>&searchType=<%= searchType %><% } %>" 
+                        <a href="<%= request.getContextPath() %>/index.jsp?center=/sns/board.jsp&page=<%= currentPage - 1 %><% if (keyword != null && !keyword.trim().isEmpty()) { %>&keyword=<%= java.net.URLEncoder.encode(keyword, "UTF-8") %>&searchType=<%= searchType %><% } %>" 
                            class="btn btn-secondary btn-sm">이전</a>
                     <% } %>
                     
@@ -192,26 +195,26 @@
                     for (int i = startPage; i <= endPage; i++) { 
                     %>
                         <% if (i == currentPage) { %>
-                            <span class="btn btn-primary btn-sm" style="cursor: default; box-shadow: var(--shadow-sm);"><%= i %></span>
+                            <span class="btn btn-primary btn-sm" style="cursor: default; box-shadow: var(--shadow-hover);"><%= i %></span>
                         <% } else { %>
-                            <a href="index.jsp?center=/sns/board.jsp?page=<%= i %><% if (keyword != null && !keyword.trim().isEmpty()) { %>&keyword=<%= java.net.URLEncoder.encode(keyword, "UTF-8") %>&searchType=<%= searchType %><% } %>" 
+                            <a href="<%= request.getContextPath() %>/index.jsp?center=/sns/board.jsp&page=<%= i %><% if (keyword != null && !keyword.trim().isEmpty()) { %>&keyword=<%= java.net.URLEncoder.encode(keyword, "UTF-8") %>&searchType=<%= searchType %><% } %>" 
                                class="btn btn-secondary btn-sm"><%= i %></a>
                         <% } %>
                     <% } %>
                     
                     <% if (currentPage < totalPages) { %>
-                        <a href="index.jsp?center=/sns/board.jsp?page=<%= currentPage + 1 %><% if (keyword != null && !keyword.trim().isEmpty()) { %>&keyword=<%= java.net.URLEncoder.encode(keyword, "UTF-8") %>&searchType=<%= searchType %><% } %>" 
+                        <a href="<%= request.getContextPath() %>/index.jsp?center=/sns/board.jsp&page=<%= currentPage + 1 %><% if (keyword != null && !keyword.trim().isEmpty()) { %>&keyword=<%= java.net.URLEncoder.encode(keyword, "UTF-8") %>&searchType=<%= searchType %><% } %>" 
                            class="btn btn-secondary btn-sm">다음</a>
                     <% } %>
                 </div>
-                <div style="text-align: center; margin-top: 16px; color: var(--text-secondary); font-size: 13px; font-weight: 400;">
-                    전체 <%= totalCount %>개 중 <%= (currentPage - 1) * pageSize + 1 %>-<%= Math.min(currentPage * pageSize, totalCount) %>개 표시
+                <div style="text-align: center; margin-top: 16px; color: var(--text-secondary); font-size: 12px; letter-spacing:0.2em;">
+                    전체 <%= totalCount %>건 중 <%= (currentPage - 1) * pageSize + 1 %> - <%= Math.min(currentPage * pageSize, totalCount) %> 표시
                 </div>
                 <% } %>
             <% } %>
             
             <div class="text-center mt-3">
-                <a href="index.jsp" class="btn btn-secondary">메인으로</a>
+                <a href="<%= request.getContextPath() %>/index.jsp" class="btn btn-secondary">허브로 돌아가기</a>
             </div>
         </div>
     </div>
