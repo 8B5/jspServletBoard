@@ -79,40 +79,36 @@
             
             <!-- 검색 패널 -->
             <div class="neo-panel neo-glow">
-                <form action="<%= request.getContextPath() %>/index.jsp" method="get" class="neo-stack">
-                    <input type="hidden" name="center" value="/sns/board.jsp">
-                    <input type="hidden" name="page" value="1">
-                    <div class="flex-between" style="flex-wrap:wrap; gap:16px;">
-                        <div style="flex:1 1 160px;">
-                            <label for="searchType">검색 필터</label>
-                            <select id="searchType" name="searchType">
-                                <option value="all" <%= "all".equals(searchType) ? "selected" : "" %>>전체</option>
-                                <option value="title" <%= "title".equals(searchType) ? "selected" : "" %>>제목</option>
-                                <option value="content" <%= "content".equals(searchType) ? "selected" : "" %>>내용</option>
-                                <option value="author" <%= "author".equals(searchType) ? "selected" : "" %>>작성자</option>
-                            </select>
-                        </div>
-                        <div style="flex:3 1 260px;">
-                            <label for="keyword">검색어</label>
-                            <input type="text" id="keyword" name="keyword" value="<%= keyword != null ? keyword : "" %>" placeholder="검색어를 입력하여 피드를 스캔하세요">
-                        </div>
-                        <div style="display:flex; gap:12px; align-items:flex-end;">
-                            <button type="submit" class="btn btn-info btn-sm">
-                                <span class="btn-icon">&#x1F50D;</span>
-                                검색
-                            </button>
-                            <% if (keyword != null && !keyword.trim().isEmpty()) { %>
-                            <a onclick="location.href='<%= request.getContextPath() %>/index.jsp?center=/sns/board.jsp'" class="btn btn-secondary btn-sm">
-                                <span class="btn-icon">&#x21BA;</span>
-                                초기화
-                            </a>
-                            <% } %>
-                        </div>
-                    </div>
-                </form>
+			    <form action="/myboard/index.jsp" method="get" class="neo-stack">
+			        <input type="hidden" name="center" value="/sns/board.jsp">
+			        <input type="hidden" name="page" value="1">
+			        
+			        <div style="display:flex; align-items:flex-end; gap:12px;"> 
+			            
+			            <div style="width:120px;"> 
+			                <select id="searchType" name="searchType" style="width:100%;">
+			                    <option value="all" selected="">전체</option>
+			                    <option value="title">제목</option>
+			                    <option value="content">내용</option>
+			                    <option value="author">작성자</option>
+			                </select>
+			            </div>
+			            
+			            <div style="flex-grow: 1;"> 
+			                <input type="text" id="keyword" name="keyword" value="" placeholder="검색어를 입력하여 피드를 스캔하세요">
+			            </div>
+			            
+			            <div style="display:flex; align-items:flex-end;"> 
+			                <button type="submit" class="btn btn-info btn-sm">
+			                    <span class="btn-icon">&#x1f50d;</span>
+			                    검색
+			                </button>
+			            </div>
+			        </div>
+			    </form>
                 <% if (keyword != null && !keyword.trim().isEmpty()) { %>
                     <p class="neo-subtitle" style="margin-top:14px; color:var(--accent-cyan);">
-                        결과 :: <%= postList.size() %> 건
+                        결과 : <%= postList.size() %> 건
                     </p>
                 <% } %>
             </div>
