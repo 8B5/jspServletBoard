@@ -59,6 +59,6 @@ FOREIGN KEY (author) REFERENCES user(user_id) ON DELETE CASCADE
 );
 
 -- 샘플 댓글 삽입
-INSERT INTO comment (post_id, author, content) VALUES
+INSERT INTO comment (post_id, author_id, content) VALUES
 (1, 'testuser', '첫 게시글 축하합니다!'),
 (2, 'admin', '네, 정상적으로 복원된 것 같습니다.');
