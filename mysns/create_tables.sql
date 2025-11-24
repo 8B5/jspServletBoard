@@ -35,12 +35,12 @@ view_count INT DEFAULT 0,            -- 조회수
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 is_deleted TINYINT DEFAULT 0 NOT NULL,
 
-FOREIGN KEY (author) REFERENCES user(user_id) ON DELETE CASCADE
+FOREIGN KEY (author_id) REFERENCES user(user_id) ON DELETE CASCADE
 
 );
 
 -- 게시글 데이터 삽입
-INSERT INTO post (title, content, author) VALUES
+INSERT INTO post (title, content, author_id) VALUES
 ('첫 번째 게시글', '도커 컴포즈로 완성한 JSP 프로젝트입니다.', 'admin'),
 ('도커 복원 테스트', '모든 파일이 정상적으로 복원되었는지 확인해 주세요.', 'testuser');
 
@@ -53,7 +53,7 @@ content TEXT NOT NULL,
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
 FOREIGN KEY (post_id) REFERENCES post(post_id) ON DELETE CASCADE,
-FOREIGN KEY (author) REFERENCES user(user_id) ON DELETE CASCADE
+FOREIGN KEY (author_id) REFERENCES user(user_id) ON DELETE CASCADE
 
 
 );
